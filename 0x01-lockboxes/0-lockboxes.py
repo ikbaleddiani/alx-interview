@@ -1,13 +1,10 @@
 #!/usr/bin/python3
-"""
-Unlock list of lists.
-"""
+"""Unlock list of lists"""
 
 def canUnlockAll(boxes):
-    """
-    This function will take a list of lists where the content
-    of each list represents keys to unlock other lists.
-    """
+    """This function will take a list of lists where the content
+    of each list represents keys to unlock other lists"""
+
     keys = [0]
     for key in keys:
         for box_key in boxes[key]:
