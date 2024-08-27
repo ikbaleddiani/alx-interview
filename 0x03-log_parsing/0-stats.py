@@ -1,38 +1,39 @@
 #!/usr/bin/python3
-"""Read stdin line by line and computes metrics"""
+"""Script that reads stdin line by line and computes metrics"""
+import re
 import sys
 
-def print_msg(codes, file_size):
-    print("File size: {}".format(file_size))
-    for key, val in sorted(codes.items()):
-        if val != 0:
-            print("{}: {}".format(key, val))
 
-file_size = 0
-count_lines = 0
-codes = {
-    "200": 0, "301": 0, "400": 0, "401": 0, "403": 0, "404": 0, "405": 0, "500": 0
-}
+count = 0
+size = 0
+status = {"200": 0, "301": 0, "400": 0, "401": 0,
+          "403": 0, "404": 0, "405": 0, "500": 0}
+
+
+def print_statistics():
+    print(f"File size: {size}")
+    for key, value in status.items():
+        if value:
+            print(f'{key}: {value}')
+
 
 try:
-    for line in sys.stdin:
-        parsed_line = line.split()
-
-        if len(parsed_line) >= 7:
-            count_lines += 1
-
-            try:
-                file_size += int(parsed_line[-1])
-            except ValueError:
-                continue
-
-            code = parsed_line[-2]
-            if code in codes:
-                codes[code] += 1
-
-            if count_lines == 10:
-                print_msg(codes, file_size)
-                count_lines = 0
-
-finally:
-    print_msg(codes, file_size)
+    while True:
+        line = sys.stdin.readline()
+        line_parts = line.split()
+        count += 1
+        try:
+            size += int(line_parts[-1])
+            if line_parts[-2] in status:
+                status[line_parts[-2]] += 1
+        except (IndexError, ValueError):
+            pass
+        if not line:
+            print_statistics()
+            break
+        if count == 10:
+            print_statistics()
+            count = 0
+except KeyboardInterrupt:
+    print_statistics()
+    raise
