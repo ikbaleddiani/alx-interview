@@ -5,7 +5,6 @@ This program solves the N queens problem """
 
 from sys import argv
 
-
 def is_NQueen(cell: list) -> bool:
     """ False if not N Queen, True if N Queen """
     row_number = len(cell) - 1
@@ -16,8 +15,7 @@ def is_NQueen(cell: list) -> bool:
             difference *= -1
         if difference == 0 or difference == row_number - index:
             return False
-    return True
-
+        return True
 
 def solve_NQueens(dimension: int, row: int, cell: list, output: list):
     """ Return result of N Queens recursively """
@@ -31,7 +29,6 @@ def solve_NQueens(dimension: int, row: int, cell: list, output: list):
                 solve_NQueens(dimension, row + 1, cell, output)
             cell.pop()
             output.pop()
-
 
 if len(argv) != 2:
     print('Usage: nqueens N')
